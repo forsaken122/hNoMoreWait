@@ -1,0 +1,28 @@
+{
+  "noMoreWaitApp": {
+    "queue": {
+      "home": {
+        "title": "Queues",
+        "createLabel": "Créer un nouveau Queue",
+        "createOrEditLabel": "Créer ou éditer un Queue",
+        "notFound": "Aucun Queue trouvé"
+      },
+      "created": "Un nouveau Queue a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Queue avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Queue avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Etes-vous certain de vouloir supprimer le Queue {{ id }} ?"
+      },
+      "detail": {
+        "title": "Queue"
+      },
+      "actCount": "Act Count",
+      "maxCount": "Max Count",
+      "creationDate": "Creation Date",
+      "closeDate": "Close Date",
+      "skipTurn": "Skip Turn",
+      "queue": "Queue",
+      "commerce": "Commerce"
+    }
+  }
+}

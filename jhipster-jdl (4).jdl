@@ -1,0 +1,43 @@
+entity Queue {
+	actCount Integer,
+    maxCount Integer,
+	creationDate Instant required,
+	closeDate Instant,
+    skipTurn Boolean
+}
+entity Commerce {
+	identifier String
+}
+entity Address {
+	address String required
+    addressLine2 String
+	postalCode String,
+	city String,
+	stateProvince String
+}
+
+entity Person {
+	firstName String required
+    lastName String required
+    email String required pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)
+    phone String required
+}
+
+relationship OneToMany {
+	Queue{queue} to Person{person},
+}
+
+relationship ManyToOne {
+	Queue to Commerce{commerce}
+}
+
+relationship OneToOne {
+	Person{address} to Address,
+    Commerce{address} to Address,
+    Person{user} to User,
+    Commerce{user} to User
+}
+
+paginate Commerce, Person with pagination
+paginate Queue with infinite-scroll
+service all with serviceImpl except Queue, Person

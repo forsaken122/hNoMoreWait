@@ -1,0 +1,52 @@
+{
+  "name": "Queue",
+  "fields": [
+    {
+      "fieldName": "actCount",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "maxCount",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "creationDate",
+      "fieldType": "Instant",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "closeDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "skipTurn",
+      "fieldType": "Boolean"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "person",
+      "otherEntityRelationshipName": "person",
+      "relationshipName": "queue"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "commerce",
+      "otherEntityRelationshipName": "commerce"
+    }
+  ],
+  "changelogDate": "20201010211625",
+  "entityTableName": "queue",
+  "dto": "no",
+  "pagination": "infinite-scroll",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

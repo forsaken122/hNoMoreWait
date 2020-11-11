@@ -48,6 +48,13 @@ public class CacheConfiguration {
             createCache(cm, com.pb.nomorewait.domain.User.class.getName());
             createCache(cm, com.pb.nomorewait.domain.Authority.class.getName());
             createCache(cm, com.pb.nomorewait.domain.User.class.getName() + ".authorities");
+            createCache(cm, com.pb.nomorewait.domain.Queue.class.getName());
+            createCache(cm, com.pb.nomorewait.domain.Queue.class.getName() + ".people");
+            createCache(cm, com.pb.nomorewait.domain.Commerce.class.getName());
+            createCache(cm, com.pb.nomorewait.domain.Commerce.class.getName() + ".commerce");
+            createCache(cm, com.pb.nomorewait.domain.Address.class.getName());
+            createCache(cm, com.pb.nomorewait.domain.Person.class.getName());
+            createCache(cm, com.pb.nomorewait.domain.Queue.class.getName() + ".queues");
             // jhipster-needle-ehcache-add-entry
         };
     }

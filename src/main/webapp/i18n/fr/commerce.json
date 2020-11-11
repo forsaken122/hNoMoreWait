@@ -1,0 +1,25 @@
+{
+  "noMoreWaitApp": {
+    "commerce": {
+      "home": {
+        "title": "Commerce",
+        "createLabel": "Créer un nouveau Commerce",
+        "createOrEditLabel": "Créer ou éditer un Commerce",
+        "notFound": "Aucun Commerce trouvé"
+      },
+      "created": "Un nouveau Commerce a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Commerce avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Commerce avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Etes-vous certain de vouloir supprimer le Commerce {{ id }} ?"
+      },
+      "detail": {
+        "title": "Commerce"
+      },
+      "identifier": "Identifier",
+      "address": "Address",
+      "user": "User",
+      "commerce": "Commerce"
+    }
+  }
+}
