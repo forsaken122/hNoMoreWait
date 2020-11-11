@@ -4,32 +4,23 @@
     {
       "fieldName": "firstName",
       "fieldType": "String",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "lastName",
       "fieldType": "String",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "email",
       "fieldType": "String",
-      "fieldValidateRules": [
-        "required",
-        "pattern"
-      ],
+      "fieldValidateRules": ["required", "pattern"],
       "fieldValidateRulesPattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$"
     },
     {
       "fieldName": "phone",
       "fieldType": "String",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldValidateRules": ["required"]
     }
   ],
   "relationships": [

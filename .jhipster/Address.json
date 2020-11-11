@@ -4,9 +4,7 @@
     {
       "fieldName": "address",
       "fieldType": "String",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "addressLine2",

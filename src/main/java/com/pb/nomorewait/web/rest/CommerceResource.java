@@ -1,6 +1,7 @@
 package com.pb.nomorewait.web.rest;
 
 import com.pb.nomorewait.domain.Commerce;
+import com.pb.nomorewait.security.AuthoritiesConstants;
 import com.pb.nomorewait.service.CommerceService;
 import com.pb.nomorewait.web.rest.errors.BadRequestAlertException;
 
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -51,6 +53,7 @@ public class CommerceResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/commerce")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Commerce> createCommerce(@RequestBody Commerce commerce) throws URISyntaxException {
         log.debug("REST request to save Commerce : {}", commerce);
         if (commerce.getId() != null) {
@@ -72,6 +75,7 @@ public class CommerceResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/commerce")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Commerce> updateCommerce(@RequestBody Commerce commerce) throws URISyntaxException {
         log.debug("REST request to update Commerce : {}", commerce);
         if (commerce.getId() == null) {
@@ -117,6 +121,7 @@ public class CommerceResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/commerce/{id}")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Void> deleteCommerce(@PathVariable Long id) {
         log.debug("REST request to delete Commerce : {}", id);
         commerceService.delete(id);

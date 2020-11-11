@@ -2,6 +2,7 @@ package com.pb.nomorewait.web.rest;
 
 import com.pb.nomorewait.domain.Queue;
 import com.pb.nomorewait.repository.QueueRepository;
+import com.pb.nomorewait.security.AuthoritiesConstants;
 import com.pb.nomorewait.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,6 +56,7 @@ public class QueueResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/queues")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Queue> createQueue(@Valid @RequestBody Queue queue) throws URISyntaxException {
         log.debug("REST request to save Queue : {}", queue);
         if (queue.getId() != null) {
@@ -75,6 +78,7 @@ public class QueueResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/queues")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Queue> updateQueue(@Valid @RequestBody Queue queue) throws URISyntaxException {
         log.debug("REST request to update Queue : {}", queue);
         if (queue.getId() == null) {
@@ -120,6 +124,7 @@ public class QueueResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/queues/{id}")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Void> deleteQueue(@PathVariable Long id) {
         log.debug("REST request to delete Queue : {}", id);
         queueRepository.deleteById(id);

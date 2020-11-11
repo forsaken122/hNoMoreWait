@@ -1,6 +1,7 @@
 package com.pb.nomorewait.web.rest;
 
 import com.pb.nomorewait.domain.Address;
+import com.pb.nomorewait.security.AuthoritiesConstants;
 import com.pb.nomorewait.service.AddressService;
 import com.pb.nomorewait.web.rest.errors.BadRequestAlertException;
 
@@ -10,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -46,6 +48,7 @@ public class AddressResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/addresses")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Address> createAddress(@Valid @RequestBody Address address) throws URISyntaxException {
         log.debug("REST request to save Address : {}", address);
         if (address.getId() != null) {
@@ -67,6 +70,7 @@ public class AddressResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/addresses")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Address> updateAddress(@Valid @RequestBody Address address) throws URISyntaxException {
         log.debug("REST request to update Address : {}", address);
         if (address.getId() == null) {
@@ -109,6 +113,7 @@ public class AddressResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/addresses/{id}")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Void> deleteAddress(@PathVariable Long id) {
         log.debug("REST request to delete Address : {}", id);
         addressService.delete(id);

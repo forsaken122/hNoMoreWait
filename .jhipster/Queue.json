@@ -12,9 +12,7 @@
     {
       "fieldName": "creationDate",
       "fieldType": "Instant",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "closeDate",

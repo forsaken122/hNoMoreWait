@@ -2,6 +2,7 @@ package com.pb.nomorewait.web.rest;
 
 import com.pb.nomorewait.domain.Person;
 import com.pb.nomorewait.repository.PersonRepository;
+import com.pb.nomorewait.security.AuthoritiesConstants;
 import com.pb.nomorewait.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,6 +56,7 @@ public class PersonResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/people")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Person> createPerson(@Valid @RequestBody Person person) throws URISyntaxException {
         log.debug("REST request to save Person : {}", person);
         if (person.getId() != null) {
@@ -75,6 +78,7 @@ public class PersonResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/people")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Person> updatePerson(@Valid @RequestBody Person person) throws URISyntaxException {
         log.debug("REST request to update Person : {}", person);
         if (person.getId() == null) {
@@ -120,6 +124,7 @@ public class PersonResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/people/{id}")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Void> deletePerson(@PathVariable Long id) {
         log.debug("REST request to delete Person : {}", id);
         personRepository.deleteById(id);
