@@ -3,6 +3,7 @@ package com.pb.nomorewait.web.rest;
 import com.pb.nomorewait.NoMoreWaitApp;
 import com.pb.nomorewait.domain.Person;
 import com.pb.nomorewait.repository.PersonRepository;
+import com.pb.nomorewait.service.PersonService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,6 +44,9 @@ public class PersonResourceIT {
 
     @Autowired
     private PersonRepository personRepository;
+
+    @Autowired
+    private PersonService personService;
 
     @Autowired
     private EntityManager em;
@@ -247,7 +251,7 @@ public class PersonResourceIT {
     @Transactional
     public void updatePerson() throws Exception {
         // Initialize the database
-        personRepository.saveAndFlush(person);
+        personService.save(person);
 
         int databaseSizeBeforeUpdate = personRepository.findAll().size();
 
@@ -296,7 +300,7 @@ public class PersonResourceIT {
     @Transactional
     public void deletePerson() throws Exception {
         // Initialize the database
-        personRepository.saveAndFlush(person);
+        personService.save(person);
 
         int databaseSizeBeforeDelete = personRepository.findAll().size();
 

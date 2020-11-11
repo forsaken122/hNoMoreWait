@@ -20,7 +20,7 @@ export const AddressUpdate = (props: IAddressUpdateProps) => {
   const { addressEntity, loading, updating } = props;
 
   const handleClose = () => {
-    props.history.push('/address');
+    props.history.push('/address' + props.location.search);
   };
 
   useEffect(() => {

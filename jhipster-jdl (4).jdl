@@ -38,6 +38,6 @@ relationship OneToOne {
     Commerce{user} to User
 }
 
-paginate Commerce, Person with pagination
-paginate Queue with infinite-scroll
-service all with serviceImpl except Queue, Person
+paginate Address with pagination
+paginate Commerce, Person, Queue with infinite-scroll
+service all with serviceImpl except Address

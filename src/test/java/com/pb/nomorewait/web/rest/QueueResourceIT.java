@@ -3,6 +3,7 @@ package com.pb.nomorewait.web.rest;
 import com.pb.nomorewait.NoMoreWaitApp;
 import com.pb.nomorewait.domain.Queue;
 import com.pb.nomorewait.repository.QueueRepository;
+import com.pb.nomorewait.service.QueueService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -48,6 +49,9 @@ public class QueueResourceIT {
 
     @Autowired
     private QueueRepository queueRepository;
+
+    @Autowired
+    private QueueService queueService;
 
     @Autowired
     private EntityManager em;
@@ -200,7 +204,7 @@ public class QueueResourceIT {
     @Transactional
     public void updateQueue() throws Exception {
         // Initialize the database
-        queueRepository.saveAndFlush(queue);
+        queueService.save(queue);
 
         int databaseSizeBeforeUpdate = queueRepository.findAll().size();
 
@@ -251,7 +255,7 @@ public class QueueResourceIT {
     @Transactional
     public void deleteQueue() throws Exception {
         // Initialize the database
-        queueRepository.saveAndFlush(queue);
+        queueService.save(queue);
 
         int databaseSizeBeforeDelete = queueRepository.findAll().size();
 

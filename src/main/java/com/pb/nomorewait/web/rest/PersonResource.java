@@ -1,8 +1,7 @@
 package com.pb.nomorewait.web.rest;
 
 import com.pb.nomorewait.domain.Person;
-import com.pb.nomorewait.repository.PersonRepository;
-import com.pb.nomorewait.security.AuthoritiesConstants;
+import com.pb.nomorewait.service.PersonService;
 import com.pb.nomorewait.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -15,10 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -32,7 +29,6 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api")
-@Transactional
 public class PersonResource {
 
     private final Logger log = LoggerFactory.getLogger(PersonResource.class);
@@ -42,10 +38,10 @@ public class PersonResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final PersonRepository personRepository;
+    private final PersonService personService;
 
-    public PersonResource(PersonRepository personRepository) {
-        this.personRepository = personRepository;
+    public PersonResource(PersonService personService) {
+        this.personService = personService;
     }
 
     /**
@@ -56,13 +52,12 @@ public class PersonResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/people")
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Person> createPerson(@Valid @RequestBody Person person) throws URISyntaxException {
         log.debug("REST request to save Person : {}", person);
         if (person.getId() != null) {
             throw new BadRequestAlertException("A new person cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Person result = personRepository.save(person);
+        Person result = personService.save(person);
         return ResponseEntity.created(new URI("/api/people/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -78,13 +73,12 @@ public class PersonResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/people")
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Person> updatePerson(@Valid @RequestBody Person person) throws URISyntaxException {
         log.debug("REST request to update Person : {}", person);
         if (person.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        Person result = personRepository.save(person);
+        Person result = personService.save(person);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, person.getId().toString()))
             .body(result);
@@ -99,7 +93,7 @@ public class PersonResource {
     @GetMapping("/people")
     public ResponseEntity<List<Person>> getAllPeople(Pageable pageable) {
         log.debug("REST request to get a page of People");
-        Page<Person> page = personRepository.findAll(pageable);
+        Page<Person> page = personService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
@@ -113,7 +107,7 @@ public class PersonResource {
     @GetMapping("/people/{id}")
     public ResponseEntity<Person> getPerson(@PathVariable Long id) {
         log.debug("REST request to get Person : {}", id);
-        Optional<Person> person = personRepository.findById(id);
+        Optional<Person> person = personService.findOne(id);
         return ResponseUtil.wrapOrNotFound(person);
     }
 
@@ -124,10 +118,9 @@ public class PersonResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/people/{id}")
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Void> deletePerson(@PathVariable Long id) {
         log.debug("REST request to delete Person : {}", id);
-        personRepository.deleteById(id);
+        personService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
 }

@@ -26,13 +26,11 @@ export const CommerceUpdate = (props: ICommerceUpdateProps) => {
   const { commerceEntity, addresses, users, loading, updating } = props;
 
   const handleClose = () => {
-    props.history.push('/commerce' + props.location.search);
+    props.history.push('/commerce');
   };
 
   useEffect(() => {
-    if (isNew) {
-      props.reset();
-    } else {
+    if (!isNew) {
       props.getEntity(props.match.params.id);
     }
 

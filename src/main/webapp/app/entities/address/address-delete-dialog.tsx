@@ -17,7 +17,7 @@ export const AddressDeleteDialog = (props: IAddressDeleteDialogProps) => {
   }, []);
 
   const handleClose = () => {
-    props.history.push('/address');
+    props.history.push('/address' + props.location.search);
   };
 
   useEffect(() => {

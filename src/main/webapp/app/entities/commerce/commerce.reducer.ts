@@ -1,5 +1,12 @@
 import axios from 'axios';
-import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction, ICrudDeleteAction } from 'react-jhipster';
+import {
+  parseHeaderForLinks,
+  loadMoreDataWhenScrolled,
+  ICrudGetAction,
+  ICrudGetAllAction,
+  ICrudPutAction,
+  ICrudDeleteAction,
+} from 'react-jhipster';
 
 import { cleanEntity } from 'app/shared/util/entity-utils';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
@@ -20,6 +27,7 @@ const initialState = {
   errorMessage: null,
   entities: [] as ReadonlyArray<ICommerce>,
   entity: defaultValue,
+  links: { next: 0 },
   updating: false,
   totalItems: 0,
   updateSuccess: false,
@@ -60,13 +68,17 @@ export default (state: CommerceState = initialState, action): CommerceState => {
         updateSuccess: false,
         errorMessage: action.payload,
       };
-    case SUCCESS(ACTION_TYPES.FETCH_COMMERCE_LIST):
+    case SUCCESS(ACTION_TYPES.FETCH_COMMERCE_LIST): {
+      const links = parseHeaderForLinks(action.payload.headers.link);
+
       return {
         ...state,
         loading: false,
-        entities: action.payload.data,
+        links,
+        entities: loadMoreDataWhenScrolled(state.entities, action.payload.data, links),
         totalItems: parseInt(action.payload.headers['x-total-count'], 10),
       };
+    }
     case SUCCESS(ACTION_TYPES.FETCH_COMMERCE):
       return {
         ...state,
@@ -122,7 +134,6 @@ export const createEntity: ICrudPutAction<ICommerce> = entity => async dispatch 
     type: ACTION_TYPES.CREATE_COMMERCE,
     payload: axios.post(apiUrl, cleanEntity(entity)),
   });
-  dispatch(getEntities());
   return result;
 };
 
@@ -140,7 +151,6 @@ export const deleteEntity: ICrudDeleteAction<ICommerce> = id => async dispatch =
     type: ACTION_TYPES.DELETE_COMMERCE,
     payload: axios.delete(requestUrl),
   });
-  dispatch(getEntities());
   return result;
 };
 

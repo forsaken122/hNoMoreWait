@@ -1,5 +1,12 @@
 import axios from 'axios';
-import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction, ICrudDeleteAction } from 'react-jhipster';
+import {
+  parseHeaderForLinks,
+  loadMoreDataWhenScrolled,
+  ICrudGetAction,
+  ICrudGetAllAction,
+  ICrudPutAction,
+  ICrudDeleteAction,
+} from 'react-jhipster';
 
 import { cleanEntity } from 'app/shared/util/entity-utils';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
@@ -20,6 +27,7 @@ const initialState = {
   errorMessage: null,
   entities: [] as ReadonlyArray<IPerson>,
   entity: defaultValue,
+  links: { next: 0 },
   updating: false,
   totalItems: 0,
   updateSuccess: false,
@@ -60,13 +68,17 @@ export default (state: PersonState = initialState, action): PersonState => {
         updateSuccess: false,
         errorMessage: action.payload,
       };
-    case SUCCESS(ACTION_TYPES.FETCH_PERSON_LIST):
+    case SUCCESS(ACTION_TYPES.FETCH_PERSON_LIST): {
+      const links = parseHeaderForLinks(action.payload.headers.link);
+
       return {
         ...state,
         loading: false,
-        entities: action.payload.data,
+        links,
+        entities: loadMoreDataWhenScrolled(state.entities, action.payload.data, links),
         totalItems: parseInt(action.payload.headers['x-total-count'], 10),
       };
+    }
     case SUCCESS(ACTION_TYPES.FETCH_PERSON):
       return {
         ...state,
@@ -122,7 +134,6 @@ export const createEntity: ICrudPutAction<IPerson> = entity => async dispatch =>
     type: ACTION_TYPES.CREATE_PERSON,
     payload: axios.post(apiUrl, cleanEntity(entity)),
   });
-  dispatch(getEntities());
   return result;
 };
 
@@ -140,7 +151,6 @@ export const deleteEntity: ICrudDeleteAction<IPerson> = id => async dispatch => 
     type: ACTION_TYPES.DELETE_PERSON,
     payload: axios.delete(requestUrl),
   });
-  dispatch(getEntities());
   return result;
 };
 

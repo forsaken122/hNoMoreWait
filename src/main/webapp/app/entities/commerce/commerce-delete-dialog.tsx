@@ -17,7 +17,7 @@ export const CommerceDeleteDialog = (props: ICommerceDeleteDialogProps) => {
   }, []);
 
   const handleClose = () => {
-    props.history.push('/commerce' + props.location.search);
+    props.history.push('/commerce');
   };
 
   useEffect(() => {

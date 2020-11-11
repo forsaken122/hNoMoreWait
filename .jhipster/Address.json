@@ -4,7 +4,9 @@
     {
       "fieldName": "address",
       "fieldType": "String",
-      "fieldValidateRules": ["required"]
+      "fieldValidateRules": [
+        "required"
+      ]
     },
     {
       "fieldName": "addressLine2",
@@ -27,8 +29,8 @@
   "changelogDate": "20201010211825",
   "entityTableName": "address",
   "dto": "no",
-  "pagination": "no",
-  "service": "serviceImpl",
+  "pagination": "pagination",
+  "service": "no",
   "jpaMetamodelFiltering": false,
   "fluentMethods": true,
   "readOnly": false,

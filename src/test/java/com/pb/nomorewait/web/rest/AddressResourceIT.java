@@ -3,7 +3,6 @@ package com.pb.nomorewait.web.rest;
 import com.pb.nomorewait.NoMoreWaitApp;
 import com.pb.nomorewait.domain.Address;
 import com.pb.nomorewait.repository.AddressRepository;
-import com.pb.nomorewait.service.AddressService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,9 +46,6 @@ public class AddressResourceIT {
 
     @Autowired
     private AddressRepository addressRepository;
-
-    @Autowired
-    private AddressService addressService;
 
     @Autowired
     private EntityManager em;
@@ -202,7 +198,7 @@ public class AddressResourceIT {
     @Transactional
     public void updateAddress() throws Exception {
         // Initialize the database
-        addressService.save(address);
+        addressRepository.saveAndFlush(address);
 
         int databaseSizeBeforeUpdate = addressRepository.findAll().size();
 
@@ -253,7 +249,7 @@ public class AddressResourceIT {
     @Transactional
     public void deleteAddress() throws Exception {
         // Initialize the database
-        addressService.save(address);
+        addressRepository.saveAndFlush(address);
 
         int databaseSizeBeforeDelete = addressRepository.findAll().size();
 

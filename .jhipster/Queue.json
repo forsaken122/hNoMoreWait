@@ -12,7 +12,9 @@
     {
       "fieldName": "creationDate",
       "fieldType": "Instant",
-      "fieldValidateRules": ["required"]
+      "fieldValidateRules": [
+        "required"
+      ]
     },
     {
       "fieldName": "closeDate",
@@ -40,7 +42,7 @@
   "entityTableName": "queue",
   "dto": "no",
   "pagination": "infinite-scroll",
-  "service": "no",
+  "service": "serviceImpl",
   "jpaMetamodelFiltering": false,
   "fluentMethods": true,
   "readOnly": false,

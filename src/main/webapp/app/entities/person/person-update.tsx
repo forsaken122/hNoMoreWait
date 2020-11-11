@@ -29,13 +29,11 @@ export const PersonUpdate = (props: IPersonUpdateProps) => {
   const { personEntity, addresses, users, queues, loading, updating } = props;
 
   const handleClose = () => {
-    props.history.push('/person' + props.location.search);
+    props.history.push('/person');
   };
 
   useEffect(() => {
-    if (isNew) {
-      props.reset();
-    } else {
+    if (!isNew) {
       props.getEntity(props.match.params.id);
     }
 

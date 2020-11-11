@@ -1,8 +1,7 @@
 package com.pb.nomorewait.web.rest;
 
 import com.pb.nomorewait.domain.Queue;
-import com.pb.nomorewait.repository.QueueRepository;
-import com.pb.nomorewait.security.AuthoritiesConstants;
+import com.pb.nomorewait.service.QueueService;
 import com.pb.nomorewait.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -15,10 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -32,7 +29,6 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api")
-@Transactional
 public class QueueResource {
 
     private final Logger log = LoggerFactory.getLogger(QueueResource.class);
@@ -42,10 +38,10 @@ public class QueueResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final QueueRepository queueRepository;
+    private final QueueService queueService;
 
-    public QueueResource(QueueRepository queueRepository) {
-        this.queueRepository = queueRepository;
+    public QueueResource(QueueService queueService) {
+        this.queueService = queueService;
     }
 
     /**
@@ -56,13 +52,12 @@ public class QueueResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/queues")
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Queue> createQueue(@Valid @RequestBody Queue queue) throws URISyntaxException {
         log.debug("REST request to save Queue : {}", queue);
         if (queue.getId() != null) {
             throw new BadRequestAlertException("A new queue cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Queue result = queueRepository.save(queue);
+        Queue result = queueService.save(queue);
         return ResponseEntity.created(new URI("/api/queues/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -78,13 +73,12 @@ public class QueueResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/queues")
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Queue> updateQueue(@Valid @RequestBody Queue queue) throws URISyntaxException {
         log.debug("REST request to update Queue : {}", queue);
         if (queue.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        Queue result = queueRepository.save(queue);
+        Queue result = queueService.save(queue);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, queue.getId().toString()))
             .body(result);
@@ -99,7 +93,7 @@ public class QueueResource {
     @GetMapping("/queues")
     public ResponseEntity<List<Queue>> getAllQueues(Pageable pageable) {
         log.debug("REST request to get a page of Queues");
-        Page<Queue> page = queueRepository.findAll(pageable);
+        Page<Queue> page = queueService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
@@ -113,7 +107,7 @@ public class QueueResource {
     @GetMapping("/queues/{id}")
     public ResponseEntity<Queue> getQueue(@PathVariable Long id) {
         log.debug("REST request to get Queue : {}", id);
-        Optional<Queue> queue = queueRepository.findById(id);
+        Optional<Queue> queue = queueService.findOne(id);
         return ResponseUtil.wrapOrNotFound(queue);
     }
 
@@ -124,10 +118,9 @@ public class QueueResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/queues/{id}")
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Void> deleteQueue(@PathVariable Long id) {
         log.debug("REST request to delete Queue : {}", id);
-        queueRepository.deleteById(id);
+        queueService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
 }
