@@ -36,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Integration tests for the {@link AccountResource} REST controller.
  */
 @AutoConfigureMockMvc
-@WithMockUser(value = TEST_USER_LOGIN)
+@WithMockUser(username = "admin", password = "admin", authorities = {AuthoritiesConstants.ADMIN})
 @SpringBootTest(classes = NoMoreWaitApp.class)
 public class AccountResourceIT {
     static final String TEST_USER_LOGIN = "test";
@@ -66,6 +66,7 @@ public class AccountResourceIT {
     }
 
     @Test
+    @WithMockUser(value = TEST_USER_LOGIN)
     public void testAuthenticatedUser() throws Exception {
         restAccountMockMvc.perform(get("/api/authenticate")
             .with(request -> {
@@ -78,6 +79,7 @@ public class AccountResourceIT {
     }
 
     @Test
+    @WithMockUser(value = TEST_USER_LOGIN)
     public void testGetExistingAccount() throws Exception {
         Set<String> authorities = new HashSet<>();
         authorities.add(AuthoritiesConstants.ADMIN);
@@ -106,6 +108,7 @@ public class AccountResourceIT {
     }
 
     @Test
+    @WithMockUser(value = TEST_USER_LOGIN)
     public void testGetUnknownAccount() throws Exception {
         restAccountMockMvc.perform(get("/api/account")
             .accept(MediaType.APPLICATION_PROBLEM_JSON))

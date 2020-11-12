@@ -3,6 +3,7 @@ package com.pb.nomorewait.web.rest;
 import com.pb.nomorewait.NoMoreWaitApp;
 import com.pb.nomorewait.domain.Queue;
 import com.pb.nomorewait.repository.QueueRepository;
+import com.pb.nomorewait.security.AuthoritiesConstants;
 import com.pb.nomorewait.service.QueueService;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @SpringBootTest(classes = NoMoreWaitApp.class)
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(username = "admin", password = "admin", authorities = {AuthoritiesConstants.ADMIN})
 public class QueueResourceIT {
 
     private static final Integer DEFAULT_ACT_COUNT = 1;
@@ -174,7 +175,7 @@ public class QueueResourceIT {
             .andExpect(jsonPath("$.[*].closeDate").value(hasItem(DEFAULT_CLOSE_DATE.toString())))
             .andExpect(jsonPath("$.[*].skipTurn").value(hasItem(DEFAULT_SKIP_TURN.booleanValue())));
     }
-    
+
     @Test
     @Transactional
     public void getQueue() throws Exception {

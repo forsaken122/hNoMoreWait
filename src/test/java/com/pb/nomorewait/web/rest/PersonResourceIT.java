@@ -3,6 +3,7 @@ package com.pb.nomorewait.web.rest;
 import com.pb.nomorewait.NoMoreWaitApp;
 import com.pb.nomorewait.domain.Person;
 import com.pb.nomorewait.repository.PersonRepository;
+import com.pb.nomorewait.security.AuthoritiesConstants;
 import com.pb.nomorewait.service.PersonService;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -27,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @SpringBootTest(classes = NoMoreWaitApp.class)
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(username = "admin", password = "admin", authorities = {AuthoritiesConstants.ADMIN})
 public class PersonResourceIT {
 
     private static final String DEFAULT_FIRST_NAME = "AAAAAAAAAA";
@@ -222,7 +223,7 @@ public class PersonResourceIT {
             .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
             .andExpect(jsonPath("$.[*].phone").value(hasItem(DEFAULT_PHONE)));
     }
-    
+
     @Test
     @Transactional
     public void getPerson() throws Exception {

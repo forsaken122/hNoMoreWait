@@ -4,6 +4,7 @@ import com.pb.nomorewait.NoMoreWaitApp;
 import com.pb.nomorewait.domain.Address;
 import com.pb.nomorewait.repository.AddressRepository;
 
+import com.pb.nomorewait.security.AuthoritiesConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @SpringBootTest(classes = NoMoreWaitApp.class)
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(username = "admin", password = "admin", authorities = {AuthoritiesConstants.ADMIN})
 public class AddressResourceIT {
 
     private static final String DEFAULT_ADDRESS = "AAAAAAAAAA";
@@ -168,7 +169,7 @@ public class AddressResourceIT {
             .andExpect(jsonPath("$.[*].city").value(hasItem(DEFAULT_CITY)))
             .andExpect(jsonPath("$.[*].stateProvince").value(hasItem(DEFAULT_STATE_PROVINCE)));
     }
-    
+
     @Test
     @Transactional
     public void getAddress() throws Exception {
