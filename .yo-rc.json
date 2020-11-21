@@ -38,6 +38,9 @@
     "enableTranslation": true,
     "nativeLanguage": "it",
     "languages": ["it", "en", "fr"],
-    "blueprints": []
+    "blueprints": [],
+    "herokuAppName": "no-more-wait",
+    "herokuDeployType": "jar",
+    "herokuJavaVersion": "11"
   }
 }
