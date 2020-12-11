@@ -126,6 +126,7 @@ public class AccountResourceIT {
         validUser.setEmail("test-register-valid@example.com");
         validUser.setImageUrl("http://placehold.it/50x50");
         validUser.setLangKey(Constants.DEFAULT_LANGUAGE);
+        validUser.setCommerce(true);
         validUser.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
         assertThat(userRepository.findOneByLogin("test-register-valid").isPresent()).isFalse();
 

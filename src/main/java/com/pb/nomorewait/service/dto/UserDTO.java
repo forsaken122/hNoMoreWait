@@ -1,5 +1,6 @@
 package com.pb.nomorewait.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.pb.nomorewait.config.Constants;
 
 import com.pb.nomorewait.domain.Authority;
@@ -50,6 +51,9 @@ public class UserDTO {
 
     private Set<String> authorities;
 
+    @JsonProperty
+    private Boolean isCommerce;
+
     public UserDTO() {
         // Empty constructor needed for Jackson.
     }
@@ -67,6 +71,7 @@ public class UserDTO {
         this.createdDate = user.getCreatedDate();
         this.lastModifiedBy = user.getLastModifiedBy();
         this.lastModifiedDate = user.getLastModifiedDate();
+        this.isCommerce = user.isCommerce();
         this.authorities = user.getAuthorities().stream()
             .map(Authority::getName)
             .collect(Collectors.toSet());
@@ -176,6 +181,14 @@ public class UserDTO {
         this.authorities = authorities;
     }
 
+    public Boolean isCommerce() {
+        return isCommerce;
+    }
+
+    public void setCommerce(Boolean commerce) {
+        isCommerce = commerce;
+    }
+
     // prettier-ignore
     @Override
     public String toString() {
@@ -192,6 +205,7 @@ public class UserDTO {
             ", lastModifiedBy='" + lastModifiedBy + '\'' +
             ", lastModifiedDate=" + lastModifiedDate +
             ", authorities=" + authorities +
+            ", isCommerce=" + isCommerce +
             "}";
     }
 }

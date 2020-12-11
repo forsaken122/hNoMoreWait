@@ -83,6 +83,9 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(name = "reset_date")
     private Instant resetDate = null;
 
+    @Column(name = "is_commerce")
+    private Boolean isCommerce = false;
+
     @JsonIgnore
     @ManyToMany
     @JoinTable(
@@ -199,6 +202,14 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.authorities = authorities;
     }
 
+    public Boolean isCommerce() {
+        return isCommerce;
+    }
+
+    public void setCommerce(Boolean commerce) {
+        isCommerce = commerce;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -227,6 +238,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
             ", activated='" + activated + '\'' +
             ", langKey='" + langKey + '\'' +
             ", activationKey='" + activationKey + '\'' +
+            ", isCommerce='" + isCommerce + '\'' +
             "}";
     }
 }

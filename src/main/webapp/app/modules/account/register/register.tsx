@@ -21,7 +21,7 @@ export const RegisterPage = (props: IRegisterProps) => {
   );
 
   const handleValidSubmit = (event, values) => {
-    props.handleRegister(values.username, values.email, values.firstPassword, props.currentLocale);
+    props.handleRegister(values.username, values.email, values.firstPassword, values.isCommerce, props.currentLocale);
     event.preventDefault();
   };
 
@@ -89,6 +89,7 @@ export const RegisterPage = (props: IRegisterProps) => {
                 match: { value: 'firstPassword', errorMessage: translate('global.messages.error.dontmatch') },
               }}
             />
+            <AvField type="checkbox" name="isCommerce" label={translate('global.form.register.iscommerce.label')} />
             <Button id="register-submit" color="primary" type="submit">
               <Translate contentKey="register.form.button">Register</Translate>
             </Button>
@@ -101,13 +102,13 @@ export const RegisterPage = (props: IRegisterProps) => {
             <a className="alert-link">
               <Translate contentKey="global.messages.info.authenticated.link"> sign in</Translate>
             </a>
-            <span>
+            {/*<span>
               <Translate contentKey="global.messages.info.authenticated.suffix">
                 , you can try the default accounts:
                 <br />- Administrator (login=&quot;admin&quot; and password=&quot;admin&quot;)
                 <br />- User (login=&quot;user&quot; and password=&quot;user&quot;).
               </Translate>
-            </span>
+            </span>*/}
           </Alert>
         </Col>
       </Row>

@@ -47,7 +47,8 @@
       "confirmpassword.label": "Confirmation du nouveau mot de passe",
       "confirmpassword.placeholder": "Confirmation du nouveau mot de passe",
       "email.label": "Email",
-      "email.placeholder": "Votre email"
+      "email.placeholder": "Votre email",
+      "register.iscommerce.label": "Tu as des commerce et tu veux créer des queues?"
     },
     "messages": {
       "info": {

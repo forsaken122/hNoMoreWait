@@ -47,7 +47,8 @@
       "confirmpassword.label": "New password confirmation",
       "confirmpassword.placeholder": "Confirm the new password",
       "email.label": "Email",
-      "email.placeholder": "Your email"
+      "email.placeholder": "Your email",
+      "register.iscommerce.label": "Are you a commerce and you want to create one or more queue(s)?"
     },
     "messages": {
       "info": {

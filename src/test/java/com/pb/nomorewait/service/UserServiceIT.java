@@ -46,6 +46,8 @@ public class UserServiceIT {
 
     private static final String DEFAULT_IMAGEURL = "http://placehold.it/50x50";
 
+    private static final Boolean DEFAULT_ICOMMERCE = true;
+
     private static final String DEFAULT_LANGKEY = "dummy";
 
     @Autowired
@@ -72,6 +74,7 @@ public class UserServiceIT {
         user.setFirstName(DEFAULT_FIRSTNAME);
         user.setLastName(DEFAULT_LASTNAME);
         user.setImageUrl(DEFAULT_IMAGEURL);
+        user.setCommerce(DEFAULT_ICOMMERCE);
         user.setLangKey(DEFAULT_LANGKEY);
 
         when(dateTimeProvider.getNow()).thenReturn(Optional.of(LocalDateTime.now()));
@@ -88,6 +91,7 @@ public class UserServiceIT {
         maybeUser = userService.requestPasswordReset(user.getEmail());
         assertThat(maybeUser).isPresent();
         assertThat(maybeUser.orElse(null).getEmail()).isEqualTo(user.getEmail());
+        assertThat(maybeUser.orElse(null).isCommerce()).isEqualTo(user.isCommerce());
         assertThat(maybeUser.orElse(null).getResetDate()).isNotNull();
         assertThat(maybeUser.orElse(null).getResetKey()).isNotNull();
     }
